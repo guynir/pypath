@@ -1,0 +1,6 @@
+- Add copyright notice in all files and on the main folder.
+- Add README.md
+- Add link to Git repo in plugin metadata
+- Add bugtracker link in plugin metadata
+- Add documentation URL in plugin metadata
+- Add description in plugin metadata

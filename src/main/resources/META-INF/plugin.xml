@@ -1,0 +1,29 @@
+<idea-plugin>
+    <id>guynir.pypath</id>
+    <name>Python Path Assist</name>
+    <vendor email="guynir75 at g mail dot com">Guy Raz Nir</vendor>
+
+    <description><![CDATA[
+        Helping plugin for managing source folders via external file (file 'source_dirs' located on the project's root
+        dir).<p>
+        Very useful for projects without build tool (such as Maven or Gradle) that manages your source folders
+        automatically.
+    ]]></description>
+
+    <!-- please see http://www.jetbrains.org/intellij/sdk/docs/basics/getting_started/plugin_compatibility.html
+         on how to target different products -->
+    <depends>com.intellij.modules.platform</depends>
+
+    <extensions defaultExtensionNs="com.intellij">
+        <!-- Add your extensions here -->
+        <postStartupActivity implementation="guynir.pypath.PostStartupActivityImpl"/>
+        <projectService serviceInterface="guynir.pypath.services.ComponentStateService"
+                        serviceImplementation="guynir.pypath.services.ComponentStateServiceImpl"/>
+
+        <projectService serviceImplementation="guynir.pypath.container.ServiceContainer"/>
+    </extensions>
+
+    <actions>
+        <!-- Add your actions here -->
+    </actions>
+</idea-plugin>
