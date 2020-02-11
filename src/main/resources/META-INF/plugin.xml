@@ -2,6 +2,7 @@
     <id>guynir.pypath</id>
     <name>Python Path Assist</name>
     <vendor email="guynir75 at g mail dot com">Guy Raz Nir</vendor>
+    <vendor>1.0.0</vendor>
 
     <description><![CDATA[
         Helping plugin for managing source folders via external file (file 'source_dirs' located on the project's root
@@ -9,6 +10,8 @@
         Very useful for projects without build tool (such as Maven or Gradle) that manages your source folders
         automatically.
     ]]></description>
+
+    <idea-version since-build="191"/>
 
     <!-- please see http://www.jetbrains.org/intellij/sdk/docs/basics/getting_started/plugin_compatibility.html
          on how to target different products -->
