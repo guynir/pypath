@@ -1,4 +1,4 @@
-name: Java CI
+name: CI - Test and build on push 
 
 on: [push]
 
