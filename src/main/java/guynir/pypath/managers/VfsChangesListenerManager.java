@@ -83,13 +83,27 @@ public class VfsChangesListenerManager {
      * @param events List of events.
      */
     protected void handleChanges(@NotNull List<? extends VFileEvent> events) {
+        boolean performRefresh = false;
+
         for (VFileEvent event : events) {
             if (event instanceof VFileMoveEvent) {
-                VFileMoveEvent moveEvent = (VFileMoveEvent) event;
-                sourceFoldersManager.handleFolderRenaming(moveEvent.getOldPath(), moveEvent.getNewPath());
+                if (!performRefresh) {
+                    try {
+                        VFileMoveEvent moveEvent = (VFileMoveEvent) event;
+                        sourceFoldersManager.handleFolderRenaming(moveEvent.getOldPath(), moveEvent.getNewPath());
+                    } catch (PyPathException ex) {
+                        performRefresh = true;
+                    }
+                }
             } else if (event instanceof VFilePropertyChangeEvent) {
-                VFilePropertyChangeEvent changeEvent = (VFilePropertyChangeEvent) event;
-                sourceFoldersManager.handleFolderRenaming(changeEvent.getOldPath(), changeEvent.getNewPath());
+                if (!performRefresh) {
+                    try {
+                        VFilePropertyChangeEvent changeEvent = (VFilePropertyChangeEvent) event;
+                        sourceFoldersManager.handleFolderRenaming(changeEvent.getOldPath(), changeEvent.getNewPath());
+                    } catch (PyPathException ex) {
+                        performRefresh = true;
+                    }
+                }
             } else if (event instanceof VFileDeleteEvent) {
                 sourceFoldersManager.handleFolderDeletion(event.getFile());
             } else {
@@ -97,20 +111,20 @@ public class VfsChangesListenerManager {
                 // a refresh.
                 VirtualFile file = event.getFile();
                 if (file != null) {
-                    boolean refresh = file.isDirectory();
-                    if (!refresh) {
+                    performRefresh |= file.isDirectory();
+                    if (!performRefresh) {
                         try {
-                            refresh = vfsService.isSame(sourceDirsFile, file);
+                            performRefresh = vfsService.isSame(sourceDirsFile, file);
                         } catch (PyPathException ex) {
                             // Ignore exception.
                         }
                     }
-
-                    if (refresh) {
-                        sourceFoldersManager.handleDirectoryMarking();
-                    }
                 }
             }
+        }
+
+        if (performRefresh) {
+            sourceFoldersManager.handleDirectoryMarking();
         }
     }
 }

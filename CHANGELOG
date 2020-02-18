@@ -1,0 +1,7 @@
+# Changelog
+
+## 1.0.2 - 2020-02-18
+
+- Fixed handling of files moved outside the scope of the workspace (caused an exception during startup).
+- Update minimum Intellij platform support to build 193.5662.14 (2019.3 EAP).
+- Optimized a bit workspace file change handling.
